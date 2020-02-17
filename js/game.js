@@ -7,11 +7,15 @@ let fg = new Image();
 let pipeUp = new Image();
 let pipeBottom = new Image();
 
-bird.src = 'img/flappy_bird_bird.png';
-bg.src = 'img/flappy_bird_bg.png';
-fg.src = 'img/flappy_bird_fg.png';
-pipeUp.src = 'img/flappy_bird_pipeUp.png';
-pipeBottom.src = 'img/flappy_bird_pipeBottom.png';
+let gap = 90;
+let xBirdPos = 150;
+let gravity = 1;
+
+bird.src = 'img/bird.png';
+bg.src = 'img/bg.png';
+fg.src = 'img/fg.png';
+pipeUp.src = 'img/pipeUp.png';
+pipeBottom.src = 'img/pipeBottom.png';
 
 let fly = new Audio();
 let score_audio = new Audio();
@@ -19,11 +23,22 @@ let score_audio = new Audio();
 fly.src = 'audio/fly.mp3';
 score_audio.src = "audio/score.mp3";
 
-
-function draw() {
+function update() {
+    xBirdPos += gravity;
+}
+function render() {
     ctx.drawImage(bg, 0, 0);
+    ctx.drawImage(bird, 10, xBirdPos);
+}
+document.addEventListener('keydown', moveUp);
 
-    requestAnimationFrame(draw);
+function moveUp() {
+    xBirdPos -= 5;
+}
+let frame = () => {
+    update();
+    render();
+    requestAnimationFrame(frame);
 }
 
-pipeBottom.onload = draw;
+pipeBottom.onload = frame;
